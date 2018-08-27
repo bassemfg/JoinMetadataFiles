@@ -73,18 +73,21 @@ namespace JoinMetadataFiles
                 if (dr1["File Name"].ToString().ToLower() == prevrowPath + ".xlsx")
                 {
                     Console.WriteLine(i.ToString() + " - processing file " + xlsxFilePath);
+                    try
+                    {
+                        xlApp = new Application();
+                        xlWorkbook = xlApp.Workbooks.Open(xlsxFilePath);
+                        xlWorksheet = xlWorkbook.Sheets[1];
 
-                    xlApp = new Application();
-                    xlWorkbook = xlApp.Workbooks.Open(xlsxFilePath);
-                    xlWorksheet = xlWorkbook.Sheets[1];
-
-                    xlRange = xlWorksheet.UsedRange;
-                    xlRange.Replace(",", "");
-                    xlWorkbook.SaveAs(@"c:\csvs\" + i.ToString() + ".csv", XlFileFormat.xlCSV, null, null, null, null, XlSaveAsAccessMode.xlExclusive, null, null, null, null);
-                    Console.WriteLine("saved file as csv " + xlsxFilePath + " as " + i.ToString() + ".csv");
-                    xlWorkbook.Close();
-                    xlApp.Quit();
-                    
+                        xlRange = xlWorksheet.UsedRange;
+                        xlRange.Replace(",", "");
+                        xlWorkbook.SaveAs(@"c:\csvs\" + i.ToString() + ".csv", XlFileFormat.xlCSV, null, null, null, null, XlSaveAsAccessMode.xlExclusive, null, null, null, null);
+                        Console.WriteLine("saved file as csv " + xlsxFilePath + " as " + i.ToString() + ".csv");
+                        xlWorkbook.Close();
+                        xlApp.Quit();
+                       // System.Threading.Thread.Sleep(1000);
+                    }
+                    catch { }
                     string csvPath = @"c:\csvs\" + i.ToString() + ".csv";
 
 
